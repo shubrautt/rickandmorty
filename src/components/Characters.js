@@ -5,20 +5,21 @@ import "bulma/css/bulma.min.css"
 
 import Card from "./Card"
 import Pagination from "./Pagination"
+import SelectData from "./SelectData"
 
 const Characters = () => {
   const [currentPage, setCurrentPage] = useState(40)
   const [characters, setCharacters] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [selectedeData, setSelectedeData] = useState({ gender: "", status: "" })
+  const [isLoading, setIsLoading] = useState(true)
+  const [selectedData, setSelectedData] = useState({ gender: "", status: "" })
 
   useEffect(() => {
-    setLoading(true)
+    setIsLoading(true)
     const endpoint = "http://localhost:8000/___graphql?"
     const variables = {
-      gender: selectedeData.gender,
+      gender: selectedData.gender,
       pagenum: currentPage,
-      status: selectedeData.status,
+      status: selectedData.status,
     }
 
     const query = gql`
@@ -44,42 +45,36 @@ const Characters = () => {
       .request(query, variables)
       .then((data) => {
         setCharacters(data.rickandmorty.characters.results)
-        setLoading(false)
+        setIsLoading(false)
       })
       .catch(() => {
         setCharacters([])
-        setLoading(false)
+        setIsLoading(false)
       })
-  }, [currentPage, selectedeData])
+  }, [currentPage, selectedData])
 
   const handleSelect = (e) => {
     console.log(e.target.value)
     if (e.target.value === "Male") {
-      setSelectedeData({ gender: "Male", status: "" })
+      setSelectedData({ gender: "Male", status: "" })
     } else if (e.target.value === "Female") {
-      setSelectedeData({ gender: "female", status: "" })
+      setSelectedData({ gender: "female", status: "" })
     } else if (e.target.value === "Alive") {
-      setSelectedeData({ gender: "", status: "Alive" })
+      setSelectedData({ gender: "", status: "Alive" })
     } else if (e.target.value === "Dead") {
-      setSelectedeData({ gender: "", status: "Dead" })
+      setSelectedData({ gender: "", status: "Dead" })
     } else if (e.target.value === "All") {
-      setSelectedeData({ gender: "", status: "" })
+      setSelectedData({ gender: "", status: "" })
     }
   }
 
   return (
     <div className="conatiner is-flex is-flex-direction-column is-align-items-center">
       <div className="select my-5">
-        <select onChange={handleSelect}>
-          <option defaultValue="Short">All</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Alive</option>
-          <option>Dead</option>
-        </select>
+        <SelectData HandleSelect={handleSelect} />
       </div>
       <div className="is-flex is-flex-wrap-wrap is-justify-content-center pt-2">
-        {loading ? (
+        {isLoading ? (
           <p>
             <button className="button is-white is-loading is-size-1">
               Loading
@@ -97,7 +92,7 @@ const Characters = () => {
         <Pagination
           CurrentPage={currentPage}
           SetCurrentPage={setCurrentPage}
-          Loading={loading}
+          IsLoading={isLoading}
         />
       </div>
     </div>

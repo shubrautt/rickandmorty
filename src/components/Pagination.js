@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react"
 import { gql, GraphQLClient } from "graphql-request"
 import PropTypes from "prop-types"
 
-const Pagination = ({ CurrentPage, SetCurrentPage, Loading }) => {
+const Pagination = ({ CurrentPage, SetCurrentPage, IsLoading }) => {
   const [totalPages, setTotalPages] = useState()
 
-  console.log(CurrentPage === 42 && Loading)
+  console.log(CurrentPage === 42 && IsLoading)
 
   useEffect(() => {
     const endpoint = "http://localhost:8000/___graphql?"
@@ -35,7 +35,7 @@ const Pagination = ({ CurrentPage, SetCurrentPage, Loading }) => {
     <div className="is-flex is-align-items-center">
       <button
         className="button mx-2"
-        disabled={CurrentPage === 1 || Loading}
+        disabled={CurrentPage === 1 || IsLoading}
         onClick={() => {
           SetCurrentPage(CurrentPage - 1)
         }}
@@ -45,7 +45,7 @@ const Pagination = ({ CurrentPage, SetCurrentPage, Loading }) => {
       <p>{`${CurrentPage} of ${totalPages || " "}`}</p>
       <button
         className="button mx-2"
-        disabled={CurrentPage === 42 || Loading}
+        disabled={CurrentPage === 42 || IsLoading}
         onClick={() => {
           SetCurrentPage(CurrentPage + 1)
         }}
@@ -60,6 +60,6 @@ export default Pagination
 
 Pagination.propTypes = {
   CurrentPage: PropTypes.number,
-  Loading: PropTypes.bool,
+  IsLoading: PropTypes.bool,
   SetCurrentPage: PropTypes.func,
 }
