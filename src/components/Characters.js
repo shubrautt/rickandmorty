@@ -15,7 +15,7 @@ const Characters = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    const endpoints = "http://localhost:8000/___graphql"
+    const endpoints = "https://rickandmortyapi.com/graphql"
     const variables = {
       gender: selectedData.gender,
       pagenum: currentPage,
@@ -23,28 +23,26 @@ const Characters = () => {
     }
 
     const query = gql`
-      query ($gender: String, $status: String, $pagenum: Int!) {
-        rickandmorty {
-          characters(
-            filter: { gender: $gender, status: $status }
-            page: $pagenum
-          ) {
-            results {
-              name
-              image
-              status
-              gender
-              id
-            }
+      query getChar($gender: String, $status: String, $pagenum: Int!) {
+        characters(
+          filter: { gender: $gender, status: $status }
+          page: $pagenum
+        ) {
+          results {
+            name
+            image
+            status
+            gender
+            id
           }
         }
       }
     `
-    const client = new GraphQLClient(endpoints, { headers: {} })
+    const client = new GraphQLClient(endpoints)
     client
       .request(query, variables)
       .then((data) => {
-        setCharacters(data.rickandmorty.characters.results)
+        setCharacters(data.characters.results)
         setIsLoading(false)
       })
       .catch(() => {
