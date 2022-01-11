@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react"
 
-import { Link } from "gatsby"
-
 import { gql, GraphQLClient } from "graphql-request"
 import "bulma/css/bulma.min.css"
 
+import Card from "./Card"
 import Pagination from "./Pagination"
 
 const Characters = () => {
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(40)
   const [characters, setCharacters] = useState([])
   const [loading, setLoading] = useState(true)
-  const [shortData, setShortData] = useState({ gender: "", status: "" })
+  const [selectedeData, setSelectedeData] = useState({ gender: "", status: "" })
 
   useEffect(() => {
     setLoading(true)
     const endpoint = "http://localhost:8000/___graphql?"
     const variables = {
-      gender: shortData.gender,
+      gender: selectedeData.gender,
       pagenum: currentPage,
-      status: shortData.status,
+      status: selectedeData.status,
     }
 
     const query = gql`
@@ -41,24 +40,30 @@ const Characters = () => {
       }
     `
     const client = new GraphQLClient(endpoint, { headers: {} })
-    client.request(query, variables).then((data) => {
-      setCharacters(data.rickandmorty.characters.results)
-      setLoading(false)
-    })
-  }, [currentPage, shortData])
+    client
+      .request(query, variables)
+      .then((data) => {
+        setCharacters(data.rickandmorty.characters.results)
+        setLoading(false)
+      })
+      .catch(() => {
+        setCharacters([])
+        setLoading(false)
+      })
+  }, [currentPage, selectedeData])
 
   const handleSelect = (e) => {
     console.log(e.target.value)
     if (e.target.value === "Male") {
-      setShortData({ gender: "Male", status: "" })
+      setSelectedeData({ gender: "Male", status: "" })
     } else if (e.target.value === "Female") {
-      setShortData({ gender: "female", status: "" })
+      setSelectedeData({ gender: "female", status: "" })
     } else if (e.target.value === "Alive") {
-      setShortData({ gender: "", status: "Alive" })
+      setSelectedeData({ gender: "", status: "Alive" })
     } else if (e.target.value === "Dead") {
-      setShortData({ gender: "", status: "Dead" })
+      setSelectedeData({ gender: "", status: "Dead" })
     } else if (e.target.value === "All") {
-      setShortData({ gender: "", status: "" })
+      setSelectedeData({ gender: "", status: "" })
     }
   }
 
@@ -80,33 +85,20 @@ const Characters = () => {
               Loading
             </button>
           </p>
+        ) : characters.length === 0 ? (
+          <div>Nothing To Show</div>
         ) : (
           characters.map((character) => {
-            return (
-              <Link to={`/character/${character.id}`} key={character.id}>
-                <div className="card mx-3 my-3">
-                  <div className="card-image">
-                    <img
-                      src={character.image}
-                      alt="img"
-                      loading="lazy"
-                      style={{ height: "300px", width: "300px" }}
-                    />
-                  </div>
-                  <div className="card-header">
-                    <div className="card-header-title">
-                      {character.name}{" "}
-                      <div className="has-text-grey"> ({character.gender})</div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            )
+            return <Card Character={character} key={character.idd} />
           })
         )}
       </div>
       <div className="py-5">
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        <Pagination
+          CurrentPage={currentPage}
+          SetCurrentPage={setCurrentPage}
+          Loading={loading}
+        />
       </div>
     </div>
   )

@@ -3,13 +3,15 @@ import React, { useEffect, useState } from "react"
 import { gql, GraphQLClient } from "graphql-request"
 import PropTypes from "prop-types"
 
-const Pagination = ({ currentPage, setCurrentPage }) => {
+const Pagination = ({ CurrentPage, SetCurrentPage, Loading }) => {
   const [totalPages, setTotalPages] = useState()
+
+  console.log(CurrentPage === 42 && Loading)
 
   useEffect(() => {
     const endpoint = "http://localhost:8000/___graphql?"
     const variables = {
-      pagenum: currentPage,
+      pagenum: CurrentPage,
     }
 
     const query = gql`
@@ -27,25 +29,25 @@ const Pagination = ({ currentPage, setCurrentPage }) => {
     client.request(query, variables).then((data) => {
       setTotalPages(data.rickandmorty.characters.info.pages)
     })
-  }, [currentPage])
+  }, [CurrentPage])
 
   return (
     <div className="is-flex is-align-items-center">
       <button
         className="button mx-2"
-        disabled={currentPage === 1}
+        disabled={CurrentPage === 1 || Loading}
         onClick={() => {
-          setCurrentPage(currentPage - 1)
+          SetCurrentPage(CurrentPage - 1)
         }}
       >
         Prev
       </button>
-      <p>{`${currentPage} of ${totalPages || " "}`}</p>
+      <p>{`${CurrentPage} of ${totalPages || " "}`}</p>
       <button
         className="button mx-2"
-        disabled={currentPage === 42}
+        disabled={CurrentPage === 42 || Loading}
         onClick={() => {
-          setCurrentPage(currentPage + 1)
+          SetCurrentPage(CurrentPage + 1)
         }}
       >
         Next
@@ -57,6 +59,7 @@ const Pagination = ({ currentPage, setCurrentPage }) => {
 export default Pagination
 
 Pagination.propTypes = {
-  currentPage: PropTypes.number,
-  setCurrentPage: PropTypes.func,
+  CurrentPage: PropTypes.number,
+  Loading: PropTypes.bool,
+  SetCurrentPage: PropTypes.func,
 }
