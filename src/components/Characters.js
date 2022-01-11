@@ -8,7 +8,7 @@ import Pagination from "./Pagination"
 import SelectData from "./SelectData"
 
 const Characters = () => {
-  const [currentPage, setCurrentPage] = useState(40)
+  const [currentPage, setCurrentPage] = useState(1)
   const [characters, setCharacters] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedData, setSelectedData] = useState({ gender: "", status: "" })
