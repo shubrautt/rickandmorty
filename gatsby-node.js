@@ -20,7 +20,7 @@ exports.createPages = async ({ graphql, actions }) => {
     "src/templates/characters-details.js"
   )
 
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count - 700; i++) {
     createPage({
       component: charactersTemplatePath,
       context: {
