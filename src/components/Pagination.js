@@ -7,25 +7,23 @@ const Pagination = ({ CurrentPage, SetCurrentPage, IsLoading }) => {
   const [totalPages, setTotalPages] = useState()
 
   useEffect(() => {
-    const endpoints = "http://localhost:8000/___graphql"
+    const endpoints = "https://rickandmortyapi.com/graphql"
     const variables = {
       pagenum: CurrentPage,
     }
 
     const query = gql`
-      query {
-        rickandmorty {
-          characters {
-            info {
-              pages
-            }
+      query getData {
+        characters {
+          info {
+            pages
           }
         }
       }
     `
-    const client = new GraphQLClient(endpoints, { headers: {} })
+    const client = new GraphQLClient(endpoints)
     client.request(query, variables).then((data) => {
-      setTotalPages(data.rickandmorty.characters.info.pages)
+      setTotalPages(data.characters.info.pages)
     })
   }, [CurrentPage])
 
