@@ -15,7 +15,7 @@ const Characters = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    const endpoint = "http://localhost:8000/___graphql"
+    const endpoint = "https://rickandmortyapi.com/graphql"
     const variables = {
       gender: selectedData.gender,
       pagenum: currentPage,
