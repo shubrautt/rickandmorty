@@ -7,7 +7,7 @@ const Pagination = ({ CurrentPage, SetCurrentPage, IsLoading }) => {
   const [totalPages, setTotalPages] = useState()
 
   useEffect(() => {
-    const endpoints = "https://rickandmortyapi.com/graphql"
+    const endpoints = "http://localhost:8000/___graphql"
     const variables = {
       pagenum: CurrentPage,
     }
