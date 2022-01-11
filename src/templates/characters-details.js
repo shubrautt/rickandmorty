@@ -37,7 +37,7 @@ const CharactersDeatils = ({ data }) => {
               width: "6px",
             }}
           ></span>
-          <span> Death</span>
+          <span> Dead</span>
         </div>
       )}
       <div className="mb-2">
