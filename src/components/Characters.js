@@ -55,14 +55,19 @@ const Characters = () => {
     console.log(e.target.value)
     if (e.target.value === "Male") {
       setSelectedData({ gender: "Male", status: "" })
+      setCurrentPage(1)
     } else if (e.target.value === "Female") {
       setSelectedData({ gender: "female", status: "" })
+      setCurrentPage(1)
     } else if (e.target.value === "Alive") {
       setSelectedData({ gender: "", status: "Alive" })
+      setCurrentPage(1)
     } else if (e.target.value === "Dead") {
       setSelectedData({ gender: "", status: "Dead" })
+      setCurrentPage(1)
     } else if (e.target.value === "All") {
       setSelectedData({ gender: "", status: "" })
+      setCurrentPage(1)
     }
   }
 
