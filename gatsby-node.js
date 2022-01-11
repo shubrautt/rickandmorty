@@ -20,13 +20,13 @@ exports.createPages = async ({ graphql, actions }) => {
     "src/templates/characters-details.js"
   )
 
-  for (let i = 0; i <= count; i++) {
+  for (let i = 0; i < count; i++) {
     createPage({
       component: charactersTemplatePath,
       context: {
-        idnum: i,
+        idnum: i + 1,
       },
-      path: `/character/${i}`,
+      path: `/character/${i + 1}`,
     })
   }
 }
