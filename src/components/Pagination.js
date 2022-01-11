@@ -6,10 +6,8 @@ import PropTypes from "prop-types"
 const Pagination = ({ CurrentPage, SetCurrentPage, IsLoading }) => {
   const [totalPages, setTotalPages] = useState()
 
-  console.log(CurrentPage === 42 && IsLoading)
-
   useEffect(() => {
-    const endpoint = "https://rickandmortyapi.com/graphql"
+    const endpoints = "https://rickandmortyapi.com/graphql"
     const variables = {
       pagenum: CurrentPage,
     }
@@ -25,7 +23,7 @@ const Pagination = ({ CurrentPage, SetCurrentPage, IsLoading }) => {
         }
       }
     `
-    const client = new GraphQLClient(endpoint, { headers: {} })
+    const client = new GraphQLClient(endpoints, { headers: {} })
     client.request(query, variables).then((data) => {
       setTotalPages(data.rickandmorty.characters.info.pages)
     })
