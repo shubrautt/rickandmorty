@@ -9,13 +9,13 @@ const Pagination = ({ CurrentPage, SetCurrentPage, IsLoading }) => {
   console.log(CurrentPage === 42 && IsLoading)
 
   useEffect(() => {
-    const endpoint = "http://localhost:8000/___graphql?"
+    const endpoint = "https://rickandmortyapi.com/graphql"
     const variables = {
       pagenum: CurrentPage,
     }
 
     const query = gql`
-      query getInfo {
+      query {
         rickandmorty {
           characters {
             info {

@@ -7,6 +7,7 @@ import "bulma/css/bulma.min.css"
 
 const CharactersDeatils = ({ data }) => {
   const result = data.rickandmorty.character
+
   return (
     <div className="container pt-6 is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
       <img src={result.image} loading="lazy" alt={result.name} />
@@ -62,7 +63,7 @@ const CharactersDeatils = ({ data }) => {
 export default CharactersDeatils
 
 export const query = graphql`
-  query getCharacters($idnum: ID!) {
+  query ($idnum: ID!) {
     rickandmorty {
       character(id: $idnum) {
         created
